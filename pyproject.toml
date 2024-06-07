@@ -1,0 +1,74 @@
+[tool.black]
+line-length = 79
+target_version = ["py312"]
+
+[tool.isort]
+combine_as_imports = true
+default_section = "THIRDPARTY"
+from_first = false
+include_trailing_comma = true
+length_sort = false
+multi_line_output = 3
+order_by_type = true
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "OTHER", "FIRSTPARTY", "LOCALFOLDER"]
+use_parentheses = true
+line_length = 79
+force_grid_wrap = 0
+
+[tool.coverage.run]
+source = ["src"]
+relative_files = true
+branch = true
+omit = [
+	"tests/*",
+]
+
+[tool.pytest.ini_options]
+dashboard-product="grasp_api"
+dashboard-report="dashboard-dependencies.json"
+addopts="--tb=short"
+log_level="INFO"
+junit_logging="system-err"
+junit_family="xunit2"
+asyncio_mode="auto"
+
+
+[tool.poetry]
+name = "grasp-api"
+version = "0.1.0"
+description = ""
+authors = ["Jorge Quinones <jaquinonesg@gmail.com>"]
+packages = [{include = "grasp_api", from = "src"}]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.12"
+gunicorn = "^21.2.0"
+fastapi = "^0.104.1"
+alembic = "^1.12.1"
+pydantic-settings = "^2.0.3"
+psycopg2-binary = "^2.9.9"
+asyncpg = "^0.29.0"
+greenlet = "^3.0.1"
+python-decouple = "^3.8"
+aiosqlite = "^0.20.0"
+pytest-asyncio = "^0.23.7"
+
+[tool.poetry.group.dev.dependencies]
+uvicorn = "^0.24.0.post1"
+isort = "^5.12.0"
+black = "^23.11.0"
+flake8 = "^6.1.0"
+mypy = "^1.7.0"
+coverage = "^7.3.2"
+pytest = "^7.4.3"
+httpx = "^0.25.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
+allow_untyped_globals = true

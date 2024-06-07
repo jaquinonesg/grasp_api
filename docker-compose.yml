@@ -1,0 +1,37 @@
+version: "3"
+services:
+  api:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/usr/src/app
+    command: sh -c "make migrate && make run/devserver"
+    env_file:
+      - .env
+    restart: "on-failure"
+    logging:
+      options:
+        max-size: "1m"
+        max-file: "3"
+    environment:
+      PYTHONASYNCIODEBUG: "1"
+      PYTHONDEVMODE: "1"
+      PYTHONUNBUFFERED: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      GRAPS_API_DB_HOST: "postgres"
+
+
+  postgres:
+    image: postgres:16.0-alpine3.18
+    environment:
+      POSTGRES_PASSWORD: ${GRAPS_API_DB_PASSWORD}
+      POSTGRES_DB: ${GRAPS_API_DB_NAME}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+
+volumes:
+  postgres-db:
