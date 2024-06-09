@@ -1,7 +1,9 @@
 version: "3"
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
     depends_on:
       - postgres
     ports:
