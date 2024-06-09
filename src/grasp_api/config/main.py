@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     grasp_api_db_ro_password: str
 
     class Config:
-        env_file = ".env"
+        env_file = "api.env"
 
 
 settings = Settings()  # type: ignore

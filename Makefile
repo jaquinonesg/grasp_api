@@ -5,7 +5,7 @@
 
 # for local development and testing
 export GUNICORN_CONF=python:grasp_api.gunicorn_conf
-GRAPS_API_ENVFILES_SECRETS?=$(CURDIR)/params.env
+GRAPS_API_ENVFILES_SECRETS?=$(CURDIR)/api.env
 export GRAPS_API_ENVFILES_SECRETS
 
 ## Test reports
@@ -91,3 +91,4 @@ migrate:
 .PHONY: run/dockerized
 run/dockerized:
 	docker-compose up
+

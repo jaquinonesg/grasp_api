@@ -176,7 +176,8 @@ db.sqlite
 setup.py
 venv
 /*.env
-!params.example.env
+!params.example.api.env
+!params.terraform.example.env
 /performance_tests/data
 *.csv
 *.jsonl

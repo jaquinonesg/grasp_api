@@ -1,0 +1,80 @@
+version: '3'
+
+vars:
+  REGION:
+    sh: echo $TF_VAR_region
+  PROJECT_ID:
+    sh: echo $TF_VAR_project_id
+  SERVICE_URL:
+    sh: echo $SERVICE_URL
+
+tasks:
+  # Simulator
+
+  simulator-build:
+    dir: simulator
+    cmds:
+      - docker buildx build --platform linux/amd64 -t {{.REGION}}-docker.pkg.dev/{{.PROJECT_ID}}/main-repo/simulator:latest .
+
+  simulator-push:
+    dir: simulator
+    deps:
+      - simulator-build
+    cmds:
+      - docker push {{.REGION}}-docker.pkg.dev/{{.PROJECT_ID}}/main-repo/simulator:latest
+
+  # Artifact Registry
+  registry_init:
+    dir: artifact_registry
+    cmds:
+      - terraform init
+
+  registry_build:
+    dir: artifact_registry
+    deps:
+      - registry_init
+    cmds:
+      - terraform plan -out=tfplan
+
+  registry_deploy:
+    dir: artifact_registry
+    deps:
+      - registry_build
+    cmds:
+      - terraform apply tfplan
+
+  registry_destroy:
+    dir: artifact_registry
+    cmds:
+      - terraform destroy -auto-approve
+
+  # Application Infra
+  infra_init:
+    dir: application_infra
+    cmds:
+      - terraform init
+
+  infra_build:
+    dir: application_infra
+    deps:
+      - infra_init
+    cmds:
+      - terraform plan -out=tfplan
+
+  infra_deploy:
+    dir: application_infra
+    deps:
+      - infra_build
+    cmds:
+      - terraform apply tfplan
+
+  infra_destroy:
+    dir: application_infra
+    cmds:
+      - terraform destroy -auto-approve
+
+  # Destroy all
+  destroy_all:
+    deps:
+      - infra_destroy
+      - registry_destroy

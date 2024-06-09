@@ -10,7 +10,7 @@ services:
       - ./:/usr/src/app
     command: sh -c "make migrate && make run/devserver"
     env_file:
-      - .env
+      - api.env
     restart: "on-failure"
     logging:
       options:
@@ -21,16 +21,16 @@ services:
       PYTHONDEVMODE: "1"
       PYTHONUNBUFFERED: "1"
       PYTHONDONTWRITEBYTECODE: "1"
-      GRAPS_API_DB_HOST: "postgres"
+      GRASP_API_DB_HOST: "postgres"
 
 
   postgres:
     image: postgres:16.0-alpine3.18
     environment:
-      POSTGRES_PASSWORD: ${GRAPS_API_DB_PASSWORD}
-      POSTGRES_DB: ${GRAPS_API_DB_NAME}
+      POSTGRES_PASSWORD: ${GRASP_API_DB_PASSWORD}
+      POSTGRES_DB: ${GRASP_API_DB_NAME}
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - postgres-db:/var/lib/postgresql/data_grasp
 
 
 volumes:

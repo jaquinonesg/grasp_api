@@ -27,6 +27,7 @@ async def get_sensor_data(
     page_size: int = Query(10, ge=1, le=100, description="Number of items per page"),
     sensor_data: SensorDataCRUD = Depends(get_sensor_data_crud)
 ):
+
     return await sensor_data.get(start_time, end_time, page, page_size)
 
 
