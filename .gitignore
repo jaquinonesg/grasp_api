@@ -180,3 +180,4 @@ venv
 /performance_tests/data
 *.csv
 *.jsonl
+pst

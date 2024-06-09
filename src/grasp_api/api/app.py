@@ -5,6 +5,9 @@ from grasp_api.api import settings
 from grasp_api.api.v1.provision.base.serializers import HealthCheck
 from grasp_api.api.v1.provision.example import views as v1_views_example
 from grasp_api.api.v1.provision.middleware.log_middleware import log_middleware
+from grasp_api.api.v1.provision.sensor_data import (
+    views as v1_views_sensor_data,
+)
 from grasp_api.config.logger import logger
 from grasp_api.config.main import filter_settings
 from grasp_api.db.database import (
@@ -33,6 +36,12 @@ def create_app() -> FastAPI:
 
 
 def _setup_routes(app):
+    app.include_router(
+        v1_views_sensor_data.router,
+        prefix="/grasp_api/v1/sensor_data",
+        tags=["sensor_data"],
+    )
+
     app.include_router(
         v1_views_example.router,
         prefix="/grasp_api/v1",

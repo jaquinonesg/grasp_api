@@ -1,9 +1,9 @@
-<h1 align="center">Welcome to template_fastapi 👋</h1>
+<h1 align="center">Welcome to grasp_api 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> A template for my fastapi projects
+> A small api to receive Pub/Sub data from sensors
 
 ## Prerequisites
 # To run local
