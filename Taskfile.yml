@@ -10,17 +10,17 @@ vars:
 
 tasks:
   # Simulator
-  simulator-build:
+  grasp-api-build:
     dir: .
     cmds:
-      - docker buildx build --platform linux/amd64 -t {{.REGION}}-docker.pkg.dev/{{.PROJECT_ID}}/main-repo/simulator:latest .
+      - docker buildx build --platform linux/amd64 -t {{.REGION}}-docker.pkg.dev/{{.PROJECT_ID}}/main-repo/grasp-api:latest .
 
-  simulator-push:
+  grasp-api-push:
     dir: .
     deps:
-      - simulator-build
+      - grasp-api-build
     cmds:
-      - docker push {{.REGION}}-docker.pkg.dev/{{.PROJECT_ID}}/main-repo/simulator:latest
+      - docker push {{.REGION}}-docker.pkg.dev/{{.PROJECT_ID}}/main-repo/grasp-api:latest
 
   # Artifact Registry
   registry_init:

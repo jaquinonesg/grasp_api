@@ -1,40 +1,40 @@
 variable "project_id" {
-  description = "alert-palace-425411-d9"
+  description = "The ID of the Google Cloud project"
   type        = string
 }
 
 variable "region" {
-  description = "europe-west1"
+  description = "The region for the Google Cloud resources"
   type        = string
 }
 
 variable "zone" {
-  description = "europe-west1-b"
+  description = "The region for the Google Cloud resources"
   type        = string
 }
 
 variable "cloud_sql_instance_name" {
-  description = "grasp_api"
+  description = "The name of the Cloud SQL instance"
   type        = string
 }
 
 variable "db_name" {
-  description = "grasp_api"
+  description = "The name of the database"
   type        = string
 }
 
 variable "db_user" {
-  description = "postgres"
+  description = "The username for the database"
   type        = string
 }
 
 variable "db_pass" {
-  description = "qwerty123"
+  description = "The password for the database"
   type        = string
   sensitive   = true
 }
 
 variable "home_ip" {
-  description = "46.244.5.202"
+  description = "The IP address to whitelist for the database"
   type        = string
 }

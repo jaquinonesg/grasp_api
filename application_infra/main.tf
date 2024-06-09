@@ -61,7 +61,7 @@ resource "google_cloud_run_service" "default" {
   template {
     spec {
       containers {
-        image = "${var.region}-docker.pkg.dev/${var.project_id}/main-repo/simulator:latest"
+        image = "${var.region}-docker.pkg.dev/${var.project_id}/main-repo/grasp-api:latest"
 
         env {
           name  = "DB_URL"
