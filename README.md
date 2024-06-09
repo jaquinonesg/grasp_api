@@ -9,6 +9,7 @@
 # To run local
 * Python > 3.11
 * Poetry
+*
 * PostgreSQL (Migth need SSL and async configurations depending on your OS)
 * Create a api.env and a terraform.env files, can be done copy pasting the current information on params.example.api.env and params.example.terraform.env
 * Update the variables in the .env files to fit your local setup

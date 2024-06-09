@@ -182,3 +182,19 @@ venv
 *.csv
 *.jsonl
 pst
+
+
+#Terraform
+*.terraform/
+*.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+*tfplan
+
+# Ignorar archivos de configuración local
+.terraformrc
+terraform.rc

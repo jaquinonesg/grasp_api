@@ -28,4 +28,6 @@ COPY poetry.lock .
 RUN poetry check
 RUN poetry install --no-interaction --no-cache
 
+EXPOSE 8000
+
 CMD ["poetry", "run", "-m", "alembic", "upgrade", "head", "&&", "poetry", "run", "-m", "uvicorn", "grasp_api.api.app:uvicorn_entry", "--factory","--reload-include", "'src/**/*.py'","--reload", "--host=0.0.0.0", "--port=8000", "--log-level", "debug"]
