@@ -72,7 +72,7 @@ run/webserver:
 
 .PHONY: run/devserver
 run/devserver:
-	poetry run uvicorn grasp_api.api.app:uvicorn_entry --factory --reload-include 'src/**/*.py' --reload --host=0.0.0.0 --port=8000 --log-level debug
+	poetry run uvicorn grasp_api.api.app:uvicorn_entry --factory --reload-include 'src/**/*.py' --reload --host=0.0.0.0 --port=8080 --log-level debug
 
 
 .PHONY: makemigrations

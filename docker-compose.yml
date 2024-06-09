@@ -5,7 +5,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - 8000:8000
+      - 8080:8080
     volumes:
       - ./:/usr/src/app
     command: sh -c "make migrate && make run/devserver"

@@ -1,7 +1,7 @@
 import os
 
 host = os.getenv("GRAPS_API_HOST", "0.0.0.0")
-port = os.getenv("GRAPS_API_PORT", "8000")
+port = os.getenv("GRAPS_API_PORT", "8080")
 
 # Gunicorn config variables
 loglevel = os.getenv("LOG_LEVEL", "info")

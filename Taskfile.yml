@@ -10,14 +10,13 @@ vars:
 
 tasks:
   # Simulator
-
   simulator-build:
-    dir: simulator
+    dir: .
     cmds:
       - docker buildx build --platform linux/amd64 -t {{.REGION}}-docker.pkg.dev/{{.PROJECT_ID}}/main-repo/simulator:latest .
 
   simulator-push:
-    dir: simulator
+    dir: .
     deps:
       - simulator-build
     cmds:
