@@ -20,7 +20,6 @@ from grasp_api.db.models import SensorData
 from grasp_api.utils.errors import (
     InvalidDateRangeError,
     InvalidPageParameterError,
-    NotFoundError,
 )
 
 
@@ -35,16 +34,21 @@ class SensorDataCRUD:
         page: int,
         page_size: int,
     ) -> List[SensorDataOut]:
+        logger.debug(
+            f"Fetching data from {start_time} to {end_time}, page {page}, page size {page_size}"
+        )
         if start_time >= end_time:
-            raise InvalidDateRangeError(
-                "start_time must be earlier than end_time"
-            )
+            error_message = "start_time must be earlier than end_time"
+            logger.error(error_message)
+            raise InvalidDateRangeError(error_message)
         if page <= 0:
-            raise InvalidPageParameterError(
-                "Page number must be greater than 0"
-            )
+            error_message = "Page number must be greater than 0"
+            logger.error(error_message)
+            raise InvalidPageParameterError(error_message)
         if page_size <= 0:
-            raise InvalidPageParameterError("Page size must be greater than 0")
+            error_message = "Page size must be greater than 0"
+            logger.error(error_message)
+            raise InvalidPageParameterError(error_message)
 
         offset = (page - 1) * page_size
         statement = (
@@ -58,6 +62,7 @@ class SensorDataCRUD:
         result = await self.session.execute(statement=statement)
         data = result.scalars().all()
 
+        logger.debug(f"Fetched {len(data)} records")
         return data if data is not None else []
 
     async def create(self, data: PubSubMessage) -> SensorDataIn:
@@ -97,6 +102,7 @@ class SensorDataCRUD:
                 dwell_time=str(message_json["v18"]),
                 time=message_json["Time"],
             )
+            logger.debug(f"Decoded and parsed sensor data: {sensor_data}")
         except binascii.Error as e:
             error_message = "Error decoding message"
             logger.error(f"{error_message}: {e}")

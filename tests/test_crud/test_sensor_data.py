@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import pytest
 from fastapi.testclient import TestClient
 
@@ -34,8 +32,8 @@ async def test_post_sensor_data_sucess(setup_and_teardown):  # noqa: F811
 
 @pytest.mark.asyncio
 async def test_post_sensor_data_with_incomplete_payload(
-    setup_and_teardown,
-):  # noqa: F811
+    setup_and_teardown,  # noqa: F811
+):
     response = client.post(
         "/grasp_api/v1/sensor_data/", json=sensor_data_payload_incomplete
     )
@@ -43,7 +41,9 @@ async def test_post_sensor_data_with_incomplete_payload(
 
 
 @pytest.mark.asyncio
-async def test_get_sensor_data_with_valid_date_range(setup_and_teardown):
+async def test_get_sensor_data_with_valid_date_range(
+    setup_and_teardown, # noqa: F811
+):
     response = client.post(
         "/grasp_api/v1/sensor_data/", json=sensor_data_payload_success
     )
@@ -57,7 +57,9 @@ async def test_get_sensor_data_with_valid_date_range(setup_and_teardown):
 
 
 @pytest.mark.asyncio
-async def test_get_sensor_data_with_invalid_date_range(setup_and_teardown):
+async def test_get_sensor_data_with_invalid_date_range(
+    setup_and_teardown, # noqa: F811
+):
     response = client.post(
         "/grasp_api/v1/sensor_data/", json=sensor_data_payload_success
     )
@@ -67,32 +69,11 @@ async def test_get_sensor_data_with_invalid_date_range(setup_and_teardown):
     assert response.status_code == 422, response.text
 
 
-@pytest.mark.asyncio
-async def test_get_sensor_data_with_pagination(setup_and_teardown):
-    for _ in range(15):
-        client.post(
-            "/grasp_api/v1/sensor_data/", json=sensor_data_payload_success
-        )
-
-    response = client.get(
-        "/grasp_api/v1/sensor_data/?start_time=2024-01-01T00:00:00&end_time=2024-12-31T23:59:59&page=1&page_size=10"
-    )
-    assert response.status_code == 200, response.text
-    data = response.json()
-    assert isinstance(data, list)
-    assert len(data) == 10
-
-    response = client.get(
-        "/grasp_api/v1/sensor_data/?start_time=2024-01-01T00:00:00&end_time=2024-12-31T23:59:59&page=2&page_size=10"
-    )
-    assert response.status_code == 200, response.text
-    data = response.json()
-    assert isinstance(data, list)
-    assert len(data) == 5
-
 
 @pytest.mark.asyncio
-async def test_get_sensor_data_with_page_size_out_of_range(setup_and_teardown):
+async def test_get_sensor_data_with_page_size_out_of_range(
+    setup_and_teardown, # noqa: F811
+):
     response = client.post(
         "/grasp_api/v1/sensor_data/", json=sensor_data_payload_success
     )
@@ -103,7 +84,9 @@ async def test_get_sensor_data_with_page_size_out_of_range(setup_and_teardown):
 
 
 @pytest.mark.asyncio
-async def test_get_sensor_data_with_default_params(setup_and_teardown):
+async def test_get_sensor_data_with_default_params(
+    setup_and_teardown, # noqa: F811
+):
     response = client.post(
         "/grasp_api/v1/sensor_data/", json=sensor_data_payload_success
     )

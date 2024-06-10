@@ -40,13 +40,7 @@ make run/dockerized
 ## Run tests
 
 ```sh
-make unittest
-```
-
-## Run linting and test
-
-```sh
-make test
+make unittests
 ```
 
 
@@ -55,6 +49,14 @@ make test
 ```sh
 make format
 ```
+
+
+## Run linting and test
+
+```sh
+make test
+```
+
 
 
 ## Author

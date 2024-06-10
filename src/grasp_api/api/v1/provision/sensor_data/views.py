@@ -16,11 +16,9 @@ from grasp_api.utils.errors import (
     InvalidPageParameterError,
 )
 from grasp_api.utils.exceptions import (
-    raise_bad_request_get,
     raise_bad_request_post,
     raise_conflict,
     raise_exception_with_ack,
-    raise_not_found,
     raise_unprocessable_content,
 )
 
@@ -49,8 +47,12 @@ async def get_sensor_data(
     - **page_size**: Number of items per page (maximum 100).
     """
     try:
+        logger.info(
+            f"Request received to get sensor data from {start_time} to {end_time}"
+        )
         return await sensor_data.get(start_time, end_time, page, page_size)
     except (InvalidDateRangeError, InvalidPageParameterError) as e:
+        logger.error(f"Error processing request: {e}")
         raise_unprocessable_content(e)
 
 
@@ -66,13 +68,17 @@ async def receive_pubsub_push(
     - **data**: PubSubMessage containing the sensor data.
     """
     try:
+        logger.info(
+            "Request received to create sensor data from Pub/Sub message"
+        )
         return await sensor_data.create(data)
     except IntegrityError:
+        logger.error("Integrity error while creating sensor data")
         raise_conflict(data)
     except binascii.Error:
+        logger.error("Error decoding Pub/Sub message data")
         raise_bad_request_post(data)
     except Exception as e:
-        # Return a generic 200 response to acknowledge the message but indicate processing error
         logger.error(
             f"Message received but processing failed. Unhandled error: {e}"
         )
