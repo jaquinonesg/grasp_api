@@ -41,6 +41,13 @@ async def get_sensor_data(
     ),
     sensor_data: SensorDataCRUD = Depends(get_sensor_data_crud),
 ):
+    """
+    Get sensor data within the specified date range.
+    - **start_time**: Start time for the data range in ISO8601 format.
+    - **end_time**: End time for the data range in ISO8601 format.
+    - **page**: Page number for pagination.
+    - **page_size**: Number of items per page (maximum 100).
+    """
     try:
         return await sensor_data.get(start_time, end_time, page, page_size)
     except (InvalidDateRangeError, InvalidPageParameterError) as e:
@@ -54,6 +61,10 @@ async def receive_pubsub_push(
     data: PubSubMessage,
     sensor_data: SensorDataCRUD = Depends(get_sensor_data_crud),
 ):
+    """
+    Receive sensor data from Google Cloud Pub/Sub.
+    - **data**: PubSubMessage containing the sensor data.
+    """
     try:
         return await sensor_data.create(data)
     except IntegrityError:
