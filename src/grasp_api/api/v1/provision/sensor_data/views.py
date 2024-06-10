@@ -21,7 +21,7 @@ from grasp_api.utils.exceptions import (
     raise_conflict,
     raise_exception_with_ack,
     raise_not_found,
-    raise_unprocessable_content
+    raise_unprocessable_content,
 )
 
 router = APIRouter()

@@ -23,6 +23,7 @@ def raise_bad_request_get(data: Any) -> None:
         detail=f"Error in query parameters: {data}",
     )
 
+
 def raise_unprocessable_content(data: Any) -> None:
     raise HTTPException(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,

@@ -58,11 +58,7 @@ class SensorDataCRUD:
         result = await self.session.execute(statement=statement)
         data = result.scalars().all()
 
-        # Verifica si el número de elementos devueltos es menor que el límite de la página
-        if len(data) < page_size:
-            return data
-        else:
-            return data[:page_size]
+        return data if data is not None else []
 
     async def create(self, data: PubSubMessage) -> SensorDataIn:
         data = await self.get_json(data)

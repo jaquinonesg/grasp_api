@@ -3,12 +3,6 @@ from datetime import datetime
 from pydantic import BaseModel, validator
 
 
-class ExampleRM(BaseModel):
-    pk_example: str
-    string_example: str
-    string2_example: str
-
-
 class HealthCheck(BaseModel):
     name: str
     version: str

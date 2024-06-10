@@ -13,16 +13,6 @@ class Base(DeclarativeBase):
         }
 
 
-class Example(Base):
-    __tablename__ = "example"
-
-    pk_example: Mapped[str] = mapped_column(String(50), primary_key=True)
-    string_example: Mapped[str | None] = mapped_column(String(128))
-    string2_example: Mapped[str | None] = mapped_column(
-        String(256), index=True
-    )
-
-
 class SensorData(Base):
     __tablename__ = "sensor_data"
 
