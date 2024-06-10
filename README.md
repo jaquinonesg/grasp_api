@@ -37,6 +37,12 @@ make run/devserver
 make run/dockerized
 ```
 
+## Once the project is running go to:
+```sh
+http://localhost:8080/docs
+```
+For interacting with the API using swagger.
+
 ## Run tests
 
 ```sh
