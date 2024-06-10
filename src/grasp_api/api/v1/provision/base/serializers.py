@@ -47,6 +47,7 @@ class SensorDataIn(BaseModel):
         except ValueError:
             raise ValueError("time must be in ISO8601 format")
 
+
 class SensorDataOut(BaseModel):
     sensor_id: str
     dwell_time: str

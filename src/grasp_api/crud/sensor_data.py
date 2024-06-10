@@ -1,6 +1,7 @@
 import base64
 import binascii
 import json
+from datetime import datetime
 from typing import List
 
 from fastapi import Depends
@@ -11,33 +12,57 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from grasp_api.api.v1.provision.base.serializers import (
     PubSubMessage,
     SensorDataIn,
-    SensorDataOut
+    SensorDataOut,
 )
 from grasp_api.config.logger import logger
 from grasp_api.db.database import get_session
 from grasp_api.db.models import SensorData
-from grasp_api.utils.errors import NotFoundError
+from grasp_api.utils.errors import (
+    InvalidDateRangeError,
+    InvalidPageParameterError,
+    NotFoundError,
+)
 
 
 class SensorDataCRUD:
     def __init__(self, session: AsyncSession):
         self.session = session
 
+    async def get(
+        self,
+        start_time: datetime,
+        end_time: datetime,
+        page: int,
+        page_size: int,
+    ) -> List[SensorDataOut]:
+        if start_time >= end_time:
+            raise InvalidDateRangeError(
+                "start_time must be earlier than end_time"
+            )
+        if page <= 0:
+            raise InvalidPageParameterError(
+                "Page number must be greater than 0"
+            )
+        if page_size <= 0:
+            raise InvalidPageParameterError("Page size must be greater than 0")
 
-    async def get(self, start_time, end_time, page, page_size) -> List[SensorDataOut]:
         offset = (page - 1) * page_size
-        statement = select(SensorData).where(
-            SensorData.time >= start_time,
-            SensorData.time <= end_time
-        ).order_by(SensorData.time).offset(offset).limit(page_size)
+        statement = (
+            select(SensorData)
+            .where(SensorData.time >= start_time, SensorData.time <= end_time)
+            .order_by(SensorData.time)
+            .offset(offset)
+            .limit(page_size)
+        )
 
         result = await self.session.execute(statement=statement)
         data = result.scalars().all()
 
-        if data is None:
-            data = []
-
-        return data
+        # Verifica si el número de elementos devueltos es menor que el límite de la página
+        if len(data) < page_size:
+            return data
+        else:
+            return data[:page_size]
 
     async def create(self, data: PubSubMessage) -> SensorDataIn:
         data = await self.get_json(data)
@@ -52,7 +77,6 @@ class SensorDataCRUD:
             error_message = "Error creating sensor_data due an integrity restriction on the database, maybe PK duplicated."
             logger.error(f"{error_message}: {e}")
             raise IntegrityError
-
 
     async def fill_if_padding_is_missing(self, encoded_data: str) -> str:
         # Add filling if required to guarantee being able to decode the message

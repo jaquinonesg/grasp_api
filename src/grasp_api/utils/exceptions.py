@@ -17,14 +17,27 @@ def raise_conflict(data: Any) -> None:
     )
 
 
-def raise_binascii(data: Any) -> None:
+def raise_bad_request_get(data: Any) -> None:
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=f"Error in query parameters: {data}",
+    )
+
+def raise_unprocessable_content(data: Any) -> None:
+    raise HTTPException(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        detail=f"Error in query parameters: {data}",
+    )
+
+
+def raise_bad_request_post(data: Any) -> None:
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail=f"Error decoding the message: {data}",
     )
 
 
-def raise_exception_with_200() -> None:
+def raise_exception_with_ack() -> None:
     raise HTTPException(
         status_code=200, detail="Message received but processing failed"
     )
