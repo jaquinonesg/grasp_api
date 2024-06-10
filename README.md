@@ -22,6 +22,8 @@ make install
 
 ## Run local
 
+* Make sure to create the database according to your api.env data.
+
 ```sh
 make migrate
 ```
